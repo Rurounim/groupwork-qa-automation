@@ -4,18 +4,25 @@ import base.BaseTest;
 import org.testng.annotations.Test;
 import pages.RegisterPage;
 
-import static com.codeborne.selenide.Condition.visible;
-import static com.codeborne.selenide.Selenide.$;
+import com.codeborne.selenide.Condition;
 
 public class RegisterTest extends BaseTest {
 
     @Test
     public void validRegister() {
         RegisterPage registerPage = new RegisterPage();
-        registerPage.enterFirstName("saxeli");
 
-        // ganvagrdzot velebis shevseba
+        String firstName = "Mariam";
+        String lastName = "Mirziashvili";
+        String email = "mm10@gmail.com";
 
-        $(".dashboard").shouldBe(visible);
+        registerPage.enterFirstName(firstName);
+        registerPage.enterLastName(lastName);
+        registerPage.enterEmail(email);
+
+        registerPage.firstName.shouldHave(Condition.value(firstName));
+        registerPage.lastName.shouldHave(Condition.value(lastName));
+        registerPage.emailLocator.shouldHave(Condition.value(email));
     }
+
 }

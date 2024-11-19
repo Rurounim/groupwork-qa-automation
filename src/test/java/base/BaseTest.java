@@ -1,26 +1,33 @@
 package base;
 
 import com.codeborne.selenide.Configuration;
+import com.codeborne.selenide.WebDriverRunner;
+import org.testng.annotations.AfterClass;
 import org.testng.annotations.AfterMethod;
-import org.testng.annotations.BeforeMethod;
-import com.codeborne.selenide.Selenide;
-import org.openqa.selenium.firefox.FirefoxDriver;
+import org.testng.annotations.BeforeClass;
+import static com.codeborne.selenide.Selenide.*;
 
 public class BaseTest {
 
-    @BeforeMethod
+    @BeforeClass
     public void setUp() {
         Configuration.baseUrl = "https://demo.automationtesting.in/Register.html";
         Configuration.timeout = 10000;
-        Configuration.browser = "firefox";
+        Configuration.browser = "firefox"; // Change this configuration to use a different browser
+        open(Configuration.baseUrl);
 
-        FirefoxDriver firefox = new FirefoxDriver();
-        firefox.get(Configuration.baseUrl);
+        String url = WebDriverRunner.url();
+        assert(url).equals(Configuration.baseUrl);
+
     }
 
     @AfterMethod
-    public void close() {
-        // Automatically close browser after each test
-        com.codeborne.selenide.WebDriverRunner.closeWebDriver();
+    public void refreshWindow() {
+        refresh();
+    }
+
+    @AfterClass
+    public void tearDown() {
+        closeWebDriver();
     }
 }
